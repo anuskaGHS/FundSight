@@ -72,7 +72,7 @@ def load_data():
     except Exception:
         # Fallback to CSV for Streamlit Cloud deployment
         csv_path = os.path.join(
-            os.path.dirname(__file__), "data",
+            os.path.dirname(__file__), "..", "data",
             "cleaned_startup_funding.csv"
         )
         return pd.read_csv(csv_path)
