@@ -45,14 +45,22 @@ def plotly_base(fig, height=320):
 
 @st.cache_data
 def load_data():
-    load_dotenv()
-    pw = quote_plus(os.getenv("DB_PASSWORD"))
-    engine = create_engine(
-        f"mysql+pymysql://{os.getenv('DB_USER')}:{pw}"
-        f"@{os.getenv('DB_HOST')}/{os.getenv('DB_NAME')}"
-    )
-    with engine.connect() as conn:
-        return pd.read_sql("SELECT * FROM startup_funding", conn)
+    try:
+        load_dotenv()
+        pw = quote_plus(os.getenv("DB_PASSWORD", ""))
+        engine = create_engine(
+            f"mysql+pymysql://{os.getenv('DB_USER')}:{pw}"
+            f"@{os.getenv('DB_HOST')}/{os.getenv('DB_NAME')}"
+        )
+        with engine.connect() as conn:
+            return pd.read_sql("SELECT * FROM startup_funding", conn)
+    except Exception:
+        # Fallback to CSV for Streamlit Cloud deployment
+        csv_path = os.path.join(
+            os.path.dirname(__file__), "..", "data",
+            "cleaned_startup_funding.csv"
+        )
+        return pd.read_csv(csv_path)
 
 load_css()
 df = load_data()
