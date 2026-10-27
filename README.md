@@ -6,7 +6,7 @@
 
 ## Live Dashboard
 
-🔗 [View on Streamlit Cloud](#) *(link will be updated after deployment)*
+🔗 [https://fundsight-app.streamlit.app/](#)
 
 ---
 
